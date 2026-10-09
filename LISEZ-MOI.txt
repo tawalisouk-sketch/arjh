@@ -1,0 +1,57 @@
+SHA'AH v2 — Pointage RH sécurisé par QR dynamique
+====================================================
+
+Fonctionnement du pointage :
+  1. L'employé touche son nom sur la TABLETTE (page Pointage) :
+     un code QR valable 25 secondes s'affiche.
+  2. Il le scanne avec l'app Scan de SON téléphone.
+  3. Le téléphone signe le code avec sa clé secrète et le serveur
+     enregistre l'arrivée ou le départ à l'heure du serveur.
+
+DÉMARRAGE
+---------
+1. Installez Node.js 18 ou plus récent (https://nodejs.org)
+2. Double-cliquez sur demarrer.bat (Windows) ou lancez ./demarrer.sh
+   (Mac/Linux), ou tapez : npm start
+3. Ouvrez http://localhost:3000
+
+Important : l'app Scan (caméra + signature) ne fonctionne qu'en HTTPS
+ou sur localhost. Pour un usage réel, hébergez en ligne (voir
+DEPLOIEMENT-EN-LIGNE.md).
+
+TROIS APPLICATIONS
+------------------
+  /pointage.html   tablette placée à l'entrée
+  /scan.html       téléphone personnel de chaque employé
+  /rh.html         Espace RH
+
+PREMIÈRE UTILISATION
+--------------------
+Au premier démarrage, la console affiche l'identifiant et le mot de
+passe RH ainsi que le code d'activation des tablettes. Notez-les,
+puis changez le mot de passe dans Espace RH > Paramètres.
+
+Pour chaque employé : Espace RH > Employés > Ajouter. Un code de
+jumelage s'affiche une seule fois. L'employé le saisit dans l'app Scan
+de son téléphone. Le code ne sert qu'une fois ; en cas de changement
+de téléphone, ouvrez la fiche et générez un nouveau code.
+
+RÈGLES DE GESTION
+-----------------
+- Retard : arrivée après l'heure prévue de l'employé.
+- Départ anticipé : départ avant l'heure prévue.
+- Heures supplémentaires : départ après l'heure prévue (le départ est
+  enregistré normalement, les minutes en plus sont comptées à part).
+- Absence automatique : à l'heure de clôture (Paramètres), tout employé
+  actif sans aucun pointage un jour travaillé est marqué absent.
+- Congés : l'employé est inactif du premier jour jusqu'à la veille de
+  son retour, puis redevient actif automatiquement.
+- Justificatifs : envoyés depuis l'app Scan, ils restent « en attente ».
+  Accepté par le RH = non comptabilisé. Refusé ou non traité =
+  comptabilisé.
+
+Fichiers de données (à côté de data.json) :
+  sauvegardes/      une copie par jour (60 jours)
+  justificatifs/    photos envoyées par les employés
+
+Liste détaillée des changements : CHANGEMENTS.md

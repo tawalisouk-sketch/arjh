@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#1534A8">
+<title>Pointage — Sha'ah</title>
+<style>
+:root{--R9:#081A5C;--R8:#0F2685;--R7:#1534A8;--R6:#2148C8;--R5:#3A62E0;--R2:#CCD8FB;--R1:#E8EEFE;
+  --OK:#11794A;--OKP:#DDF3E7;--KO:#BF2A2A;--KOP:#FCE4E4;--WA:#9A5B00;--WAP:#FFF0D2;}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;background:var(--R7);color:#fff;overflow:hidden;}
+button,input{font:inherit;}
+.screen{position:fixed;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;padding:24px;background:var(--R7);}
+.screen.on{display:flex;}
+.inner{width:100%;max-width:440px;text-align:center;}
+.brand{display:inline-block;background:#fff;color:var(--R7);font-weight:800;padding:7px 20px;border-radius:999px;margin-bottom:22px;}
+.title{font-size:23px;font-weight:800;margin-bottom:6px;}
+.sub{font-size:15px;color:var(--R2);margin-bottom:22px;line-height:1.5;}
+.btn{width:100%;padding:20px;border-radius:999px;border:none;background:#D35400;color:#fff;font-size:19px;font-weight:800;cursor:pointer;}
+.btn:active{transform:scale(.98);}
+.btn.alt{background:#0B5E3B;color:#fff;}
+.btn.ghost{background:#084A2D;color:#fff;font-size:15px;font-weight:700;padding:15px;margin-top:12px;}
+.field{width:100%;padding:18px;border-radius:999px;border:none;background:var(--R8);color:#fff;font-size:21px;text-align:center;letter-spacing:5px;text-transform:uppercase;outline:none;margin-bottom:14px;font-family:ui-monospace,Consolas,monospace;}
+.field::placeholder{color:var(--R2);letter-spacing:1px;font-family:inherit;font-size:15px;}
+.err{color:#FFD2D2;font-weight:700;font-size:14px;min-height:20px;margin-top:12px;}
+
+.date{font-size:16px;color:var(--R2);text-transform:uppercase;letter-spacing:1.5px;font-weight:700;}
+.clock{font-size:84px;font-weight:800;letter-spacing:-2px;font-variant-numeric:tabular-nums;line-height:1.05;margin:6px 0 4px;}
+.clock-sub{display:inline-block;font-size:12.5px;font-weight:700;background:var(--R8);color:var(--R2);padding:6px 14px;border-radius:999px;margin-bottom:34px;}
+.duo{display:flex;gap:12px;}
+
+.search{width:100%;padding:16px 22px;border-radius:999px;border:none;background:#fff;color:var(--R9);font-size:17px;outline:none;margin-bottom:12px;}
+.list{max-height:52vh;overflow-y:auto;display:flex;flex-direction:column;gap:8px;text-align:left;}
+.emp{display:flex;align-items:center;gap:12px;background:var(--R8);border:none;color:#fff;border-radius:999px;padding:10px 18px 10px 10px;cursor:pointer;width:100%;text-align:left;}
+.emp:active{background:var(--R9);}
+.emp.off{opacity:.55;}
+.av{width:42px;height:42px;border-radius:999px;background:#fff;color:var(--R7);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;flex-shrink:0;}
+.emp .n{flex:1;font-weight:700;font-size:16px;}
+.pill{display:inline-block;padding:5px 12px;border-radius:999px;font-size:12px;font-weight:800;background:var(--R1);color:var(--R7);}
+.pill.ko{background:var(--KOP);color:var(--KO);}
+.empty{padding:24px;text-align:center;color:var(--R2);font-weight:600;}
+
+.who{display:flex;align-items:center;gap:12px;background:var(--R8);border-radius:999px;padding:10px 20px 10px 10px;margin-bottom:20px;text-align:left;}
+.who .n{font-weight:800;font-size:17px;}.who .s{font-size:13px;color:var(--R2);}
+.qr{width:270px;height:270px;margin:0 auto 14px;background:#fff;border-radius:28px;padding:18px;display:flex;align-items:center;justify-content:center;}
+.qr img,.qr canvas{width:100%!important;height:100%!important;image-rendering:pixelated;}
+.timer{display:inline-block;background:#fff;color:var(--R7);font-weight:800;font-size:16px;padding:8px 18px;border-radius:999px;font-variant-numeric:tabular-nums;margin-bottom:10px;}
+.timer.low{background:var(--KOP);color:var(--KO);}
+.status{font-weight:700;font-size:15px;min-height:22px;color:var(--R2);}
+.status.ko{color:#FFD2D2;}
+
+.result-box{border-radius:28px;padding:28px 22px;margin-bottom:22px;background:#fff;color:var(--R9);}
+.result-box .t{font-size:24px;font-weight:800;margin-bottom:6px;}
+.result-box .s{font-size:16px;color:#4E5A7A;margin-bottom:14px;}
+.big-pill{display:inline-block;padding:10px 20px;border-radius:999px;font-weight:800;font-size:15px;margin:4px;}
+.ok{background:var(--OKP);color:var(--OK);}.wa{background:var(--WAP);color:var(--WA);}.sup{background:var(--R1);color:var(--R7);}
+
+.toast{position:fixed;top:18px;left:50%;transform:translate(-50%,-90px);padding:13px 24px;border-radius:999px;font-weight:700;z-index:99;transition:transform .25s;max-width:92vw;text-align:center;}
+.toast.show{transform:translate(-50%,0);}
+.toast.ok{background:var(--OK);}.toast.ko{background:var(--KO);}
+@media(max-height:620px){.clock{font-size:60px;}.clock-sub{margin-bottom:18px;}.qr{width:220px;height:220px;}}
+</style>
+</head>
+<body>
+
+<div class="screen" id="s-activate">
+  <div class="inner">
+    <span class="brand">Sha'ah</span>
+    <div class="title">Activation de la tablette</div>
+    <div class="sub">Saisissez le code d'activation affiché dans l'Espace RH, rubrique Paramètres.</div>
+    <input type="text" id="act-code" class="field" maxlength="12" placeholder="Code d'activation" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" onkeydown="if(event.key==='Enter')activate()">
+    <button class="btn" onclick="activate()">Activer cette tablette</button>
+    <div class="err" id="act-err"></div>
+  </div>
+</div>
+
+<div class="screen" id="s-clock">
+  <div class="inner">
+    <span class="brand">Sha'ah</span>
+    <div class="date" id="clk-date">&nbsp;</div>
+    <div class="clock" id="clk-time">--:--:--</div>
+    <div class="clock-sub">Heure officielle du serveur</div>
+    <div class="duo">
+      <button class="btn" onclick="goSelect('arrivee')">Arrivée</button>
+      <button class="btn alt" onclick="goSelect('depart')">Départ</button>
+    </div>
+    <div class="sub" style="margin:22px 0 0;font-size:13px;">Pour justifier un retard ou une absence, utilisez l'app Scan sur votre téléphone.</div>
+  </div>
+</div>
+
+<div class="screen" id="s-select">
+  <div class="inner">
+    <div class="title" id="sel-title">Pointer mon arrivée</div>
+    <div class="sub">Touchez votre nom</div>
+    <input type="search" id="sel-q" class="search" placeholder="Rechercher mon nom" oninput="renderList()" autocomplete="off" autocorrect="off" spellcheck="false">
+    <div class="list" id="sel-list"></div>
+    <button class="btn ghost" onclick="home()">Retour</button>
+  </div>
+</div>
+
+<div class="screen" id="s-qr">
+  <div class="inner">
+    <div class="who"><div class="av" id="qr-av"></div><div><div class="n" id="qr-name"></div><div class="s" id="qr-sub"></div></div></div>
+    <div class="timer" id="qr-timer">25 s</div>
+    <div class="qr" id="qr-box"></div>
+    <div class="status" id="qr-status">Scannez ce code avec l'app Scan de votre téléphone</div>
+    <button class="btn ghost" onclick="cancelQr()">Annuler</button>
+  </div>
+</div>
+
+<div class="screen" id="s-result">
+  <div class="inner">
+    <div class="result-box">
+      <div class="t" id="res-t"></div>
+      <div class="s" id="res-s"></div>
+      <div id="res-p"></div>
+    </div>
+    <button class="btn" onclick="home()">Terminer</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="/vendor/qrcode.min.js"></script>
+<script>
+'use strict';
+const JOURS=['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+const MOISF=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+let TOKEN='';try{TOKEN=localStorage.getItem('kiosk_token')||'';}catch(e){}
+let EMPS=[],mode='arrivee',current=null,pollT=null,cdT=null,backT=null;
+let clockBase=null; // {seconds,date,perf}
+
+const $=id=>document.getElementById(id);
+function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function ini(n){return String(n||'?').split(/\s+/).slice(0,2).map(w=>w[0]||'').join('').toUpperCase();}
+function fmt(mn){mn=Math.round(mn||0);const h=Math.floor(mn/60),m=mn%60;return h?(m?h+' h '+String(m).padStart(2,'0'):h+' h'):m+' min';}
+function go(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on',s.id===id));}
+function toast(m,t){const e=$('toast');e.textContent=m;e.className='toast show '+(t||'ok');clearTimeout(e._t);e._t=setTimeout(()=>e.className='toast',3500);}
+
+// ===== HORLOGE SYNCHRONISÉE SUR LE SERVEUR =====
+async function syncClock(){
+  try{const r=await fetch('/api/time',{cache:'no-store'});const d=await r.json();clockBase={seconds:d.seconds,date:d.date,perf:performance.now()};}catch(e){}
+}
+function drawClock(){
+  if(!clockBase)return;
+  let s=Math.floor(clockBase.seconds+(performance.now()-clockBase.perf)/1000);
+  if(s>=86400){syncClock();s=s%86400;}
+  const h=Math.floor(s/3600),m=Math.floor(s%3600/60),sec=s%60;
+  $('clk-time').textContent=[h,m,sec].map(x=>String(x).padStart(2,'0')).join(':');
+  const d=new Date(clockBase.date+'T12:00:00Z');
+  $('clk-date').textContent=JOURS[d.getUTCDay()]+' '+d.getUTCDate()+' '+MOISF[d.getUTCMonth()]+' '+d.getUTCFullYear();
+}
+syncClock();setInterval(syncClock,5*60*1000);setInterval(drawClock,500);
+
+// ===== API =====
+async function api(url,opt){
+  opt=opt||{};
+  const headers=Object.assign({'X-Kiosk-Token':TOKEN},opt.body?{'Content-Type':'application/json'}:{});
+  const r=await fetch(url,{method:opt.method||'GET',headers,body:opt.body?JSON.stringify(opt.body):undefined});
+  let d={};try{d=await r.json();}catch(e){}
+  if(r.status===401){try{localStorage.removeItem('kiosk_token');}catch(e){}TOKEN='';stop();showActivate('Cette tablette n\'est plus activée. Saisissez le nouveau code.');throw new Error('__401');}
+  if(!r.ok||d.ok===false){const e=new Error(d.error||'Erreur');e.data=d;throw e;}
+  return d;
+}
+
+// ===== ACTIVATION =====
+function showActivate(msg){$('act-code').value='';$('act-err').textContent=msg||'';go('s-activate');}
+async function activate(){
+  const code=$('act-code').value.trim().toUpperCase();
+  if(!code){$('act-err').textContent='Saisissez le code';return;}
+  TOKEN=code;
+  try{const d=await api('/api/kiosk/employes');EMPS=d.employes;try{localStorage.setItem('kiosk_token',code);}catch(e){}home();}
+  catch(e){if(e.message!=='__401')$('act-err').textContent=e.message;else $('act-err').textContent='Code incorrect. Vérifiez-le auprès du service RH.';}
+}
+
+// ===== SÉLECTION =====
+function home(){stop();current=null;go('s-clock');}
+async function goSelect(m){
+  mode=m;$('sel-title').textContent=m==='depart'?'Pointer mon départ':'Pointer mon arrivée';$('sel-q').value='';
+  try{const d=await api('/api/kiosk/employes');EMPS=d.employes;}catch(e){if(e.message==='__401')return;toast('Connexion au serveur impossible','ko');}
+  renderList();go('s-select');
+}
+function renderList(){
+  const q=$('sel-q').value.toLowerCase().trim();
+  const l=EMPS.filter(e=>!q||e.nom.toLowerCase().includes(q));
+  $('sel-list').innerHTML=l.length?l.map(e=>'<button class="emp'+(e.paire?'':' off')+'" onclick="pick(\''+esc(e.id)+'\')"><span class="av">'+esc(ini(e.nom))+'</span><span class="n">'+esc(e.nom)+'</span>'+(e.paire?'':'<span class="pill ko">Téléphone non jumelé</span>')+'</button>').join('')
+    :'<div class="empty">Aucun employé trouvé</div>';
+}
+async function pick(id){
+  const e=EMPS.find(x=>x.id===id);if(!e)return;
+  if(!e.paire){toast('Téléphone non jumelé : demandez votre code au service RH','ko');return;}
+  current=e;
+  $('qr-av').textContent=ini(e.nom);$('qr-name').textContent=e.nom;
+  $('qr-sub').textContent=(mode==='depart'?'Départ prévu à ':'Arrivée prévue à ')+(mode==='depart'?e.hdep:e.href);
+  $('qr-box').innerHTML='';$('qr-status').className='status';$('qr-status').textContent='Préparation du code…';
+  go('s-qr');
+  let d;
+  try{d=await api('/api/pointage/challenge',{method:'POST',body:{empId:e.id,type:mode}});}
+  catch(err){if(err.message==='__401')return;toast(err.message,'ko');go('s-select');return;}
+  new QRCode($('qr-box'),{text:d.challengeId,width:234,height:234,colorDark:'#081A5C',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});
+  $('qr-status').textContent='Scannez ce code avec l\'app Scan de votre téléphone';
+  countdown(d.expiresIn);poll(d.challengeId);
+}
+function countdown(n){
+  clearInterval(cdT);let r=n;const el=$('qr-timer');
+  const draw=()=>{el.textContent=Math.max(0,r)+' s';el.className='timer'+(r<=8?' low':'');};
+  draw();cdT=setInterval(()=>{r--;draw();if(r<=0)clearInterval(cdT);},1000);
+}
+function poll(id){
+  clearInterval(pollT);
+  pollT=setInterval(async()=>{
+    let d;try{d=await api('/api/pointage/challenge/'+id);}catch(e){return;}
+    if(d.status==='confirmed'){stop();showResult(d.record);}
+    else if(d.status==='expired'||d.status==='rejected'){
+      stop();$('qr-box').innerHTML='';
+      $('qr-status').className='status ko';
+      $('qr-status').textContent=d.status==='expired'?'Code expiré. Touchez de nouveau votre nom.':(d.error||'Pointage refusé');
+      backT=setTimeout(()=>go('s-select'),2500);
+    }
+  },1200);
+}
+function stop(){clearInterval(pollT);clearInterval(cdT);clearTimeout(backT);pollT=cdT=null;}
+function cancelQr(){stop();go('s-select');}
+
+function showResult(r){
+  $('res-t').textContent=current.nom;
+  $('res-s').textContent=(r.type==='depart'?'Départ enregistré à ':'Arrivée enregistrée à ')+r.heure+' (prévu '+r.hprev+')';
+  let p='';
+  if(r.type==='arrivee')p=r.ecartMn>0?'<span class="big-pill wa">Retard de '+fmt(r.ecartMn)+'</span>':'<span class="big-pill ok">À l\'heure</span>';
+  else{
+    if(r.ecartMn>0)p='<span class="big-pill wa">Départ anticipé de '+fmt(r.ecartMn)+'</span>';
+    else p='<span class="big-pill ok">Départ enregistré</span>';
+    if(r.supMn>0)p+='<span class="big-pill sup">Heures supplémentaires : '+fmt(r.supMn)+'</span>';
+  }
+  if(r.ecartMn>0)p+='<div style="margin-top:12px;font-size:13px;color:#4E5A7A;">Vous pouvez envoyer un justificatif depuis l\'app Scan. Il sera validé par le service RH.</div>';
+  $('res-p').innerHTML=p;
+  go('s-result');
+  backT=setTimeout(home,9000);
+}
+
+// ===== DÉMARRAGE =====
+(async function(){
+  if(!TOKEN){showActivate();return;}
+  try{const d=await api('/api/kiosk/employes');EMPS=d.employes;home();}
+  catch(e){if(e.message!=='__401')showActivate('Connexion au serveur impossible. Vérifiez internet puis rechargez la page.');}
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+{
+  "name": "shaah",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Sha'ah — pointage RH par QR dynamique et signature du téléphone, congés, heures supplémentaires, validation des justificatifs (sans dépendance)",
+  "main": "server.js",
+  "scripts": { "start": "node server.js" },
+  "engines": { "node": ">=18" }
+}
