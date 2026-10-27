@@ -1,5 +1,5 @@
 /**
- * Sha'ah — Serveur v2
+ * Pointage DRONEGROUPE (logiciel Sha'ah, conçu par ACDEES) — Serveur v2
  * -----------------------------------------------------------
  * Aucune dépendance externe : uniquement les modules intégrés à Node.js (18+).
  *
@@ -423,6 +423,8 @@ function serveStatic(req, res, urlPath) {
     const ext = path.extname(filePath).toLowerCase();
     const headers = Object.assign({ 'Content-Type': MIME[ext] || 'application/octet-stream' }, SEC_HEADERS);
     if (ext === '.html') { headers['Content-Security-Policy'] = CSP; headers['Cache-Control'] = 'no-cache'; }
+    else if (ext === '.webmanifest' || path.basename(filePath) === 'sw.js' || ext === '.js') headers['Cache-Control'] = 'no-cache';
+    else if (ext === '.png') headers['Cache-Control'] = 'public, max-age=86400';
     res.writeHead(200, headers);
     res.end(data);
   });
@@ -856,7 +858,7 @@ server.requestTimeout = 30 * 1000;
 if (require.main === module) {
   server.listen(PORT, () => {
     console.log('\n==========================================================');
-    console.log('   Sha\'ah v2 démarré — port ' + PORT + ' — fuseau ' + TZ);
+    console.log('   Pointage DRONEGROUPE (Sha\'ah v2) démarré — port ' + PORT + ' — fuseau ' + TZ);
     console.log('   Données : ' + DATA_FILE);
     console.log('==========================================================\n');
     tickCloture();

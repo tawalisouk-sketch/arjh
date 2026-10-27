@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#1534A8">
+<title>Pointage DRONEGROUPE — Scan</title>
+<meta name="description" content="Application de l'employé : pointage et justificatifs. Sha'ah, conçu par ACDEES.">
+<meta property="og:title" content="Pointage DRONEGROUPE — Scan">
+<meta property="og:description" content="Application de l'employé : pointage et justificatifs. Sha'ah, conçu par ACDEES.">
+<link rel="manifest" href="/manifest-scan.webmanifest">
+<link rel="icon" type="image/png" href="/icons/scan-192.png">
+<link rel="apple-touch-icon" href="/icons/scan-180.png">
+<meta name="apple-mobile-web-app-title" content="DG Scan">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<script src="/pwa.js"></script>
+<style>
+:root{--R9:#081A5C;--R8:#0F2685;--R7:#1534A8;--R6:#2148C8;--R2:#CCD8FB;--R1:#E8EEFE;--R0:#F4F7FF;--INK:#0B1640;--G6:#4E5A7A;
+  --OK:#11794A;--OKP:#DDF3E7;--KO:#BF2A2A;--KOP:#FCE4E4;--WA:#9A5B00;--WAP:#FFF0D2;}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{min-height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;background:var(--R7);color:#fff;}
+button,input,textarea{font:inherit;}
+.screen{display:none;min-height:100vh;flex-direction:column;align-items:center;justify-content:center;padding:24px 18px;}
+.screen.on{display:flex;}
+.screen.top{justify-content:flex-start;}
+.inner{width:100%;max-width:420px;text-align:center;}
+.hdr{margin-bottom:22px;}
+.hdr-t{font-size:26px;font-weight:900;letter-spacing:.6px;line-height:1.1;}
+.hdr-s{font-size:12.5px;color:var(--R2);margin-top:5px;}
+.hdr-s b{color:#fff;letter-spacing:.4px;}
+.hdr-tag{display:inline-block;background:#D35400;color:#fff;font-weight:800;font-size:12px;padding:4px 12px;border-radius:999px;margin-top:10px;}
+.warn{background:#FFF0D2;color:#9A5B00;border-radius:22px;padding:14px 16px;font-size:13.5px;font-weight:600;line-height:1.45;margin-bottom:16px;text-align:left;}
+.warn button{margin-top:10px;border:none;border-radius:999px;background:#D35400;color:#fff;font-weight:800;padding:10px 16px;cursor:pointer;}
+.title{font-size:22px;font-weight:800;margin-bottom:6px;}
+.sub{font-size:14.5px;color:var(--R2);margin-bottom:22px;line-height:1.5;}
+.btn{width:100%;padding:18px;border-radius:999px;border:none;background:#D35400;color:#fff;font-size:17px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;}
+.btn:active{transform:scale(.98);}
+.btn.alt{background:#0B5E3B;color:#fff;margin-top:10px;}
+.btn.ghost{background:#084A2D;color:#fff;font-size:15px;font-weight:700;padding:14px;margin-top:10px;}
+.btn:disabled{opacity:.6;}
+.field{width:100%;padding:18px;border-radius:999px;border:none;background:var(--R8);color:#fff;font-size:21px;text-align:center;letter-spacing:4px;text-transform:uppercase;outline:none;margin-bottom:14px;font-family:ui-monospace,Consolas,monospace;}
+.field::placeholder{color:var(--R2);letter-spacing:1px;font-family:inherit;font-size:15px;}
+.err{color:#FFD2D2;font-weight:700;font-size:14px;min-height:20px;margin-top:12px;}
+.id{background:var(--R8);border-radius:28px;padding:22px;margin-bottom:22px;}
+.av{width:66px;height:66px;border-radius:999px;background:#fff;color:var(--R7);font-weight:800;font-size:22px;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;}
+.id .n{font-size:19px;font-weight:800;}
+.pill{display:inline-block;padding:5px 12px;border-radius:999px;font-size:12px;font-weight:800;background:var(--R1);color:var(--R7);margin:3px;}
+.pill.ok{background:var(--OKP);color:var(--OK);}.pill.ko{background:var(--KOP);color:var(--KO);}.pill.wa{background:var(--WAP);color:var(--WA);}.pill.dark{background:var(--R9);color:#fff;}
+.badge{background:#fff;color:var(--KO);border-radius:999px;padding:2px 10px;font-size:13px;}
+.badge:empty{display:none;}
+.link{background:none;border:none;color:var(--R2);text-decoration:underline;font-size:13px;margin-top:22px;cursor:pointer;}
+
+.frame{position:relative;width:min(80vw,300px);aspect-ratio:1;margin:0 auto 18px;border-radius:28px;overflow:hidden;background:#000;border:4px solid #fff;}
+.frame video{width:100%;height:100%;object-fit:cover;}
+.msg{font-weight:700;color:var(--R2);margin-bottom:12px;min-height:20px;}
+
+.card{background:#fff;color:var(--INK);border-radius:22px;padding:16px;text-align:left;margin-bottom:10px;}
+.card .t{font-weight:800;}
+.card .s{font-size:13px;color:var(--G6);margin-top:3px;}
+.card .m{font-size:13px;background:var(--R0);border-radius:12px;padding:8px 12px;margin-top:8px;}
+.card .act{margin-top:10px;}
+.card .act button{border:none;border-radius:999px;background:#D35400;color:#fff;font-weight:700;padding:9px 16px;cursor:pointer;}
+.empty{background:var(--R8);border-radius:22px;padding:22px;color:var(--R2);font-weight:600;}
+.res{background:#fff;color:var(--INK);border-radius:28px;padding:26px 20px;margin-bottom:20px;}
+.res .t{font-size:22px;font-weight:800;margin-bottom:6px;}
+.res .s{color:var(--G6);margin-bottom:12px;}
+.res.ko .t{color:var(--KO);}
+textarea{width:100%;border:none;border-radius:22px;padding:14px 18px;font-size:16px;outline:none;resize:none;margin-bottom:12px;color:var(--INK);}
+.file{display:block;background:#0B5E3B;color:#fff;border-radius:999px;padding:14px;font-weight:700;cursor:pointer;margin-bottom:8px;}
+.file input{display:none;}
+.fname{font-size:13px;color:var(--R2);min-height:18px;margin-bottom:12px;}
+.toast{position:fixed;top:16px;left:50%;transform:translate(-50%,-90px);padding:12px 22px;border-radius:999px;font-weight:700;z-index:99;transition:transform .25s;max-width:92vw;text-align:center;}
+.toast.show{transform:translate(-50%,0);}
+.toast.ok{background:var(--OK);}.toast.ko{background:var(--KO);}
+</style>
+</head>
+<body>
+
+<div class="screen" id="s-pair">
+  <div class="inner">
+    <div class="hdr"><div class="hdr-t">POINTAGE DRONEGROUPE</div><div class="hdr-s"><b>SHA'AH</b> votre logiciel de pointage conçu par ACDEES</div><span class="hdr-tag">Scan</span></div>
+    <div class="title">Lier mon téléphone</div>
+    <div class="sub">Saisissez le code de jumelage remis par le service RH. Il ne sert qu'une seule fois.</div>
+    <div class="warn" id="pair-warn" style="display:none;">Sur iPhone, installez d'abord l'application (Partager, puis « Sur l'écran d'accueil »), ouvrez-la depuis l'écran d'accueil, puis saisissez votre code dedans. Sinon il faudra demander un nouveau code au service RH.</div>
+    <div class="warn" id="pair-inst" style="display:none;">Conseil : installez l'application avant de saisir votre code.<br><button type="button" onclick="window.PWA.install()">Installer l'application</button></div>
+    <input type="text" id="pair-code" class="field" maxlength="16" placeholder="Code de jumelage" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" onkeydown="if(event.key==='Enter')pair()">
+    <button class="btn" id="pair-btn" onclick="pair()">Lier mon téléphone</button>
+    <div class="err" id="pair-err"></div>
+  </div>
+</div>
+
+<div class="screen" id="s-home">
+  <div class="inner">
+    <div class="hdr"><div class="hdr-t">POINTAGE DRONEGROUPE</div><div class="hdr-s"><b>SHA'AH</b> votre logiciel de pointage conçu par ACDEES</div><span class="hdr-tag">Scan</span></div>
+    <div class="id"><div class="av" id="h-av"></div><div class="n" id="h-name"></div><div style="margin-top:8px;"><span class="pill" id="h-stat">Téléphone jumelé</span></div></div>
+    <button class="btn" onclick="startScan()">Scanner le code de la tablette</button>
+    <button class="btn alt" onclick="openHisto()">Mes retards et absences <span class="badge" id="h-badge"></span></button>
+    <button class="link" onclick="unpairAsk()">Ce n'est pas moi : délier ce téléphone</button>
+  </div>
+</div>
+
+<div class="screen" id="s-scan">
+  <div class="inner">
+    <div class="title">Visez le code de la tablette</div>
+    <div class="msg" id="scan-msg">Recherche du code…</div>
+    <div class="frame"><video id="video" autoplay playsinline muted></video></div>
+    <button class="btn ghost" onclick="stopScan(true)">Annuler</button>
+  </div>
+</div>
+
+<div class="screen" id="s-result">
+  <div class="inner">
+    <div class="res" id="res-box"><div class="t" id="res-t"></div><div class="s" id="res-s"></div><div id="res-p"></div></div>
+    <button class="btn" onclick="goHome()">Terminer</button>
+  </div>
+</div>
+
+<div class="screen top" id="s-histo">
+  <div class="inner">
+    <div class="title" style="margin-top:6px;">Mes retards et absences</div>
+    <div class="sub">60 derniers jours. Un justificatif n'est pris en compte qu'après acceptation par le service RH.</div>
+    <div id="histo-list"></div>
+    <button class="btn ghost" onclick="goHome()">Retour</button>
+  </div>
+</div>
+
+<div class="screen" id="s-justif">
+  <div class="inner">
+    <div class="title">Envoyer un justificatif</div>
+    <div class="sub" id="j-info"></div>
+    <textarea id="j-motif" rows="4" maxlength="500" placeholder="Expliquez le motif : transport, maladie, rendez-vous…"></textarea>
+    <label class="file">Joindre une photo du justificatif (facultatif)<input type="file" id="j-file" accept="image/*" onchange="onFile()"></label>
+    <div class="fname" id="j-fname"></div>
+    <button class="btn" id="j-btn" onclick="sendJustif()">Envoyer au service RH</button>
+    <button class="btn ghost" onclick="openHisto()">Retour</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="/vendor/jsQR.js"></script>
+<script>
+'use strict';
+let ID=null, stream=null, raf=null, offset=0, HISTO=null, jItem=null, jPiece=null;
+const $=id=>document.getElementById(id);
+function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function ini(n){return String(n||'?').split(/\s+/).slice(0,2).map(w=>w[0]||'').join('').toUpperCase();}
+function fmt(mn){mn=Math.round(mn||0);const h=Math.floor(mn/60),m=mn%60;return h?(m?h+' h '+String(m).padStart(2,'0'):h+' h'):m+' min';}
+function fdate(d){const p=String(d).split('-');return p[2]+'/'+p[1]+'/'+p[0];}
+function go(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on',s.id===id));window.scrollTo(0,0);}
+function toast(m,t){const e=$('toast');e.textContent=m;e.className='toast show '+(t||'ok');clearTimeout(e._t);e._t=setTimeout(()=>e.className='toast',3500);}
+
+function loadId(){try{const r=localStorage.getItem('sha3ah_identity');ID=r?JSON.parse(r):null;}catch(e){ID=null;}}
+function saveId(){try{localStorage.setItem('sha3ah_identity',JSON.stringify(ID));}catch(e){}}
+function clearId(){try{localStorage.removeItem('sha3ah_identity');}catch(e){}ID=null;}
+
+
+async function hmacHex(secret,msg){
+  const enc=new TextEncoder();
+  const key=await crypto.subtle.importKey('raw',enc.encode(secret),{name:'HMAC',hash:'SHA-256'},false,['sign']);
+  const sig=await crypto.subtle.sign('HMAC',key,enc.encode(msg));
+  return Array.from(new Uint8Array(sig)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+async function syncTime(){try{const r=await fetch('/api/time',{cache:'no-store'});const d=await r.json();offset=d.ts-Date.now();}catch(e){}}
+
+function notPaired(msg){clearId();showPair(msg||'Ce téléphone n\'est plus jumelé. Demandez un nouveau code au service RH.');}
+
+// Requête signée avec la clé secrète du téléphone
+async function signed(action,data){
+  const payload=JSON.stringify(Object.assign({action,empId:ID.empId,ts:Date.now()+offset},data||{}));
+  const signature=await hmacHex(ID.secret,payload);
+  const r=await fetch('/api/employee/requete',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({payload,signature})});
+  let d={};try{d=await r.json();}catch(e){}
+  if(d.code==='NOT_PAIRED'){notPaired();throw new Error('__unpaired');}
+  if(!r.ok||d.ok===false)throw new Error(d.error||'Erreur');
+  return d;
+}
+
+// ===== JUMELAGE =====
+function showPair(msg){
+  $('pair-code').value='';$('pair-err').textContent=msg||'';
+  const P=window.PWA||{};
+  $('pair-warn').style.display=P.ios&&!P.standalone?'block':'none';
+  $('pair-inst').style.display=!P.ios&&!P.standalone&&window._canInstall?'block':'none';
+  go('s-pair');
+}
+window.addEventListener('beforeinstallprompt',()=>{window._canInstall=true;if($('s-pair').classList.contains('on'))$('pair-inst').style.display='block';});
+window.addEventListener('appinstalled',()=>{window._canInstall=false;$('pair-inst').style.display='none';});
+async function pair(){
+  const code=$('pair-code').value.trim().toUpperCase();
+  if(!code){$('pair-err').textContent='Saisissez votre code';return;}
+  if(!window.crypto||!crypto.subtle){$('pair-err').textContent='Ce navigateur ne permet pas la signature sécurisée. Ouvrez la page en https.';return;}
+  $('pair-btn').disabled=true;
+  try{
+    const r=await fetch('/api/employee/pair',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code})});
+    const d=await r.json().catch(()=>({}));
+    if(!r.ok||!d.ok){$('pair-err').textContent=d.error||'Code incorrect';return;}
+    ID={empId:d.empId,empNom:d.empNom,secret:d.secret};saveId();goHome();
+  }catch(e){$('pair-err').textContent='Connexion au serveur impossible';}
+  finally{$('pair-btn').disabled=false;}
+}
+function unpairAsk(){
+  if(!confirm('Délier ce téléphone ? Vous aurez besoin d\'un nouveau code du service RH pour pointer.'))return;
+  clearId();showPair();
+}
+
+// ===== ACCUEIL =====
+async function goHome(){
+  stopScan(false);
+  $('h-av').textContent=ini(ID.empNom);$('h-name').textContent=ID.empNom;
+  go('s-home');
+  try{
+    const p=await signed('profil');
+    if(p.empNom&&p.empNom!==ID.empNom){ID.empNom=p.empNom;saveId();$('h-name').textContent=p.empNom;$('h-av').textContent=ini(p.empNom);}
+    const st=$('h-stat');st.textContent=p.statut==='Actif'?'Téléphone jumelé':(p.statut==='En congé'?'En congé':'Inactif');st.className='pill'+(p.statut==='Actif'?'':' wa');
+    HISTO=await signed('historique');
+    const n=aJustifier().length;$('h-badge').textContent=n?n+' à justifier':'';
+  }catch(e){}
+}
+function aJustifier(){
+  if(!HISTO)return [];
+  return [...HISTO.pointages.filter(p=>p.ecartMn>0),...HISTO.absences].filter(x=>['aucune','refusee'].includes(x.justif.statut));
+}
+
+// ===== SCAN =====
+async function startScan(){
+  if(!window.crypto||!crypto.subtle){toast('Ouvrez l\'app en https pour pointer','ko');return;}
+  $('scan-msg').textContent='Recherche du code…';go('s-scan');
+  try{stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'},audio:false});}
+  catch(e){try{stream=await navigator.mediaDevices.getUserMedia({video:true,audio:false});}catch(e2){toast('Caméra indisponible : autorisez l\'accès à la caméra','ko');goHome();return;}}
+  const v=$('video');v.srcObject=stream;
+  try{await v.play();}catch(e){}
+  const c=document.createElement('canvas'),ctx=c.getContext('2d',{willReadFrequently:true});
+  let busy=false;
+  const tick=()=>{
+    if(!stream)return;
+    if(!busy&&v.readyState===v.HAVE_ENOUGH_DATA){
+      const w=Math.min(640,v.videoWidth),h=Math.round(v.videoHeight*w/v.videoWidth);
+      c.width=w;c.height=h;ctx.drawImage(v,0,0,w,h);
+      const code=jsQR(ctx.getImageData(0,0,w,h).data,w,h,{inversionAttempts:'dontInvert'});
+      if(code&&code.data){
+        const txt=code.data.trim();
+        if(/^[a-f0-9]{18}$/.test(txt)){busy=true;onCode(txt);return;}
+        $('scan-msg').textContent='Ce code n\'est pas un code de pointage DRONEGROUPE';
+      }
+    }
+    raf=requestAnimationFrame(tick);
+  };
+  raf=requestAnimationFrame(tick);
+}
+function stopScan(back){
+  if(raf)cancelAnimationFrame(raf);raf=null;
+  if(stream){stream.getTracks().forEach(t=>t.stop());stream=null;}
+  if(back)goHome();
+}
+async function onCode(challengeId){
+  $('scan-msg').textContent='Code détecté, validation…';
+  stopScan(false);
+  let r,d={};
+  try{
+    const signature=await hmacHex(ID.secret,challengeId);
+    r=await fetch('/api/pointage/scan',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({challengeId,empId:ID.empId,signature})});
+    d=await r.json().catch(()=>({}));
+  }catch(e){return result(false,'Connexion impossible','Vérifiez votre connexion internet et réessayez.');}
+  if(d.code==='NOT_PAIRED')return notPaired(d.error);
+  if(!r.ok||!d.ok)return result(false,'Pointage refusé',d.error||'Une erreur est survenue.');
+  const x=d.record;let p='';
+  if(x.type==='arrivee')p=x.ecartMn>0?'<span class="pill wa">Retard de '+fmt(x.ecartMn)+'</span>':'<span class="pill ok">À l\'heure</span>';
+  else{p=x.ecartMn>0?'<span class="pill wa">Départ anticipé de '+fmt(x.ecartMn)+'</span>':'<span class="pill ok">Départ enregistré</span>';if(x.supMn>0)p+='<span class="pill dark">Heures sup. '+fmt(x.supMn)+'</span>';}
+  if(x.ecartMn>0)p+='<div style="font-size:13px;color:#4E5A7A;margin-top:10px;">Vous pouvez envoyer un justificatif depuis « Mes retards et absences ».</div>';
+  result(true,(x.type==='depart'?'Départ':'Arrivée')+' enregistré'+(x.type==='arrivee'?'e':'')+' à '+x.heure,'Heure prévue : '+x.hprev,p);
+}
+function result(ok,t,s,p){
+  $('res-box').className='res'+(ok?'':' ko');$('res-t').textContent=t;$('res-s').textContent=s||'';$('res-p').innerHTML=p||'';go('s-result');
+}
+
+// ===== HISTORIQUE & JUSTIFICATIFS =====
+const ST={aucune:['ko','À justifier'],en_attente:['wa','En attente du RH'],acceptee:['ok','Accepté'],refusee:['ko','Refusé']};
+function cardHTML(x){
+  const st=ST[x.justif.statut]||ST.aucune;let t,s,need=true;
+  if(x.kind==='absence'){t='Absence '+(x.jours>1?'de '+x.jours+' jours':'');s=fdate(x.dateDebut)+(x.dateFin!==x.dateDebut?' au '+fdate(x.dateFin):'')+(x.source==='auto'?' · aucun pointage ce jour':'');}
+  else if(x.type==='arrivee'){t='Retard de '+fmt(x.ecartMn);s=fdate(x.date)+' · arrivée '+x.heure+' (prévu '+x.hprev+')';}
+  else{t=x.ecartMn>0?'Départ anticipé de '+fmt(x.ecartMn):'Heures supplémentaires : '+fmt(x.supMn);s=fdate(x.date)+' · départ '+x.heure+' (prévu '+x.hprev+')';need=x.ecartMn>0;}
+  let h='<div class="card"><div class="t">'+esc(t)+'</div><div class="s">'+esc(s)+'</div>';
+  if(need)h+='<div style="margin-top:8px;"><span class="pill '+st[0]+'">'+st[1]+'</span></div>';
+  else h+='<div style="margin-top:8px;"><span class="pill dark">Heures supplémentaires</span></div>';
+  if(x.justif.motif)h+='<div class="m">Votre motif : '+esc(x.justif.motif)+'</div>';
+  if(x.justif.commentaire)h+='<div class="m">Service RH : '+esc(x.justif.commentaire)+'</div>';
+  if(need&&x.justif.statut!=='acceptee')h+='<div class="act"><button onclick="openJustif(\''+x.kind+'\',\''+esc(x.id)+'\')">'+(x.justif.statut==='en_attente'?'Modifier mon justificatif':'Justifier')+'</button></div>';
+  return h+'</div>';
+}
+async function openHisto(){
+  go('s-histo');$('histo-list').innerHTML='<div class="empty">Chargement…</div>';
+  try{HISTO=await signed('historique');}catch(e){if(e.message!=='__unpaired')$('histo-list').innerHTML='<div class="empty">'+esc(e.message)+'</div>';return;}
+  const all=[...HISTO.pointages.map(p=>({...p,d:p.date})),...HISTO.absences.map(a=>({...a,d:a.dateDebut}))].sort((a,b)=>b.d.localeCompare(a.d));
+  $('histo-list').innerHTML=all.length?all.map(cardHTML).join(''):'<div class="empty">Aucun retard ni absence sur les 60 derniers jours</div>';
+}
+function openJustif(kind,id){
+  const arr=kind==='absence'?HISTO.absences:HISTO.pointages;
+  jItem=arr.find(x=>x.id===id);if(!jItem)return;jItem.kind=kind;jPiece=null;
+  $('j-info').textContent=kind==='absence'?'Absence du '+fdate(jItem.dateDebut)+(jItem.dateFin!==jItem.dateDebut?' au '+fdate(jItem.dateFin):''):(jItem.type==='arrivee'?'Retard':'Départ anticipé')+' du '+fdate(jItem.date)+' : '+fmt(jItem.ecartMn);
+  $('j-motif').value=jItem.justif.motif||'';$('j-file').value='';$('j-fname').textContent=jItem.justif.piece?'Une pièce est déjà jointe. Vous pouvez la remplacer.':'';
+  go('s-justif');
+}
+function compress(file){
+  return new Promise((ok,ko)=>{
+    const url=URL.createObjectURL(file),img=new Image();
+    img.onload=()=>{
+      const r=Math.min(1,1400/Math.max(img.naturalWidth,img.naturalHeight));
+      const w=Math.round(img.naturalWidth*r),h=Math.round(img.naturalHeight*r);
+      const c=document.createElement('canvas');c.width=w;c.height=h;
+      const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,w,h);x.drawImage(img,0,0,w,h);URL.revokeObjectURL(url);
+      let q=0.8,d=c.toDataURL('image/jpeg',q);while(d.length>1.9e6&&q>0.3){q-=0.1;d=c.toDataURL('image/jpeg',q);}
+      d.length>1.9e6?ko(new Error('Photo trop lourde')):ok(d);
+    };
+    img.onerror=()=>{URL.revokeObjectURL(url);ko(new Error('Image illisible'));};
+    img.src=url;
+  });
+}
+async function onFile(){
+  const f=$('j-file').files[0];jPiece=null;if(!f){$('j-fname').textContent='';return;}
+  $('j-fname').textContent='Préparation de la photo…';
+  try{jPiece=await compress(f);$('j-fname').textContent='Photo prête : '+f.name;}
+  catch(e){$('j-fname').textContent=e.message;$('j-file').value='';}
+}
+async function sendJustif(){
+  const motif=$('j-motif').value.trim();
+  if(motif.length<3){toast('Expliquez le motif','ko');return;}
+  const b=$('j-btn');b.disabled=true;b.textContent='Envoi…';
+  try{
+    await signed('justifier',{kind:jItem.kind,id:jItem.id,motif,piece:jPiece||undefined});
+    toast('Justificatif envoyé au service RH','ok');openHisto();
+  }catch(e){if(e.message!=='__unpaired')toast(e.message,'ko');}
+  finally{b.disabled=false;b.textContent='Envoyer au service RH';}
+}
+
+// ===== DÉMARRAGE =====
+(async function(){
+  await syncTime();
+  loadId();
+  if(ID&&ID.empId&&ID.secret)goHome();else showPair();
+})();
+</script>
+</body>
+</html>

@@ -1,4 +1,13 @@
-# Sha'ah v2 — ce qui a changé
+# Pointage DRONEGROUPE (Sha'ah v2) — ce qui a changé
+
+## Mise à jour du 27/10/2026
+
+- **Nom** : l'en-tête de toutes les pages est désormais « POINTAGE DRONEGROUPE », avec en dessous « SHA'AH votre logiciel de pointage conçu par ACDEES ».
+- **Applications installables** : la tablette, l'app Scan et l'Espace RH s'installent chacune comme une application séparée, avec sa propre icône (DG Pointage, DG Scan, DG RH). Une pilule « Installer l'application » s'affiche à l'ouverture du lien sur Android ; des instructions s'affichent sur iPhone et dans les navigateurs de Facebook et Instagram.
+- **Liens à envoyer** : nouvelle carte dans Espace RH > Paramètres, avec un bouton pour copier chaque lien.
+- **Sans connexion** : les pages restent en mémoire sur l'appareil. Si internet coupe, l'application s'ouvre quand même et indique l'absence de connexion. Les données ne sont jamais mises en cache : elles sont toujours lues en direct sur le serveur.
+- **Boutons** : orange et vert bouteille.
+
 
 ## Nouvelles fonctions
 

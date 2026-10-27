@@ -1,0 +1,33 @@
+{
+  "id": "/scan.html",
+  "name": "Pointage DRONEGROUPE — Scan",
+  "short_name": "DG Scan",
+  "description": "Application personnelle de l'employé : pointage et justificatifs — Sha'ah, conçu par ACDEES",
+  "lang": "fr",
+  "start_url": "/scan.html?source=app",
+  "scope": "/scan.html",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#1534A8",
+  "theme_color": "#1534A8",
+  "icons": [
+    {
+      "src": "/icons/scan-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/scan-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/scan-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

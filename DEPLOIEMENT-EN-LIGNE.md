@@ -1,4 +1,4 @@
-# Héberger Sha'ah en ligne (une instance par entreprise)
+# Héberger Pointage DRONEGROUPE (Sha'ah) en ligne (une instance par entreprise)
 
 Ce dossier est prêt à être déployé sur un hébergeur en ligne (Render,
 Railway, etc.) pour que la tablette de pointage et l'espace RH soient
@@ -106,6 +106,7 @@ Le principe est identique :
   `https://acme.votredomaine.com/scan.html`, saisit son code de jumelage
   (affiché une seule fois dans la fiche employé) et ajoute la page à son
   écran d'accueil.
+- **Installer les applications** : envoyez les trois liens (Espace RH > Paramètres > Liens à envoyer). Sur Android, une pilule « Installer l'application » apparaît ; sur iPhone, Partager puis « Sur l'écran d'accueil ». Voir `LISEZ-MOI.txt`.
 - Ajoutez `/pointage.html` à l'écran d'accueil de la tablette (menu du
   navigateur → "Ajouter à l'écran d'accueil") pour un accès en un tap.
 

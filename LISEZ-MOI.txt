@@ -1,4 +1,5 @@
-SHA'AH v2 — Pointage RH sécurisé par QR dynamique
+POINTAGE DRONEGROUPE
+Sha'ah, votre logiciel de pointage conçu par ACDEES
 ====================================================
 
 Fonctionnement du pointage :
@@ -35,6 +36,34 @@ Pour chaque employé : Espace RH > Employés > Ajouter. Un code de
 jumelage s'affiche une seule fois. L'employé le saisit dans l'app Scan
 de son téléphone. Le code ne sert qu'une fois ; en cas de changement
 de téléphone, ouvrez la fiche et générez un nouveau code.
+
+INSTALLER LES APPLICATIONS SUR TÉLÉPHONE / TABLETTE
+---------------------------------------------------
+Les trois interfaces s'installent comme de vraies applications, chacune
+avec son icône sur l'écran d'accueil. Il suffit d'envoyer le lien
+(WhatsApp, SMS, e-mail). Les liens à copier sont dans
+Espace RH > Paramètres > Liens à envoyer.
+
+  Tablette :  https://VOTRE-ADRESSE/pointage.html   (icône « DG Pointage »)
+  Employés :  https://VOTRE-ADRESSE/scan.html       (icône « DG Scan »)
+  RH       :  https://VOTRE-ADRESSE/rh.html         (icône « DG RH »)
+
+- Android (Chrome, Samsung Internet…) : une pilule « Installer
+  l'application » apparaît en bas de l'écran. Un toucher suffit.
+- iPhone / iPad (Safari) : Partager, puis « Sur l'écran d'accueil »,
+  puis « Ajouter ».
+- Ordinateur (Chrome, Edge) : icône d'installation dans la barre
+  d'adresse.
+- Si le lien s'ouvre dans Facebook ou Instagram : « Ouvrir dans Chrome »
+  ou « Ouvrir dans Safari » d'abord.
+
+L'installation ne fonctionne qu'en HTTPS (adresse en ligne).
+
+IMPORTANT sur iPhone : l'employé doit installer l'app Scan AVANT de
+saisir son code de jumelage, et saisir le code dans l'app installée.
+Sur iPhone, l'app installée ne partage pas la mémoire de Safari : un
+téléphone jumelé dans Safari devra être rejumelé (nouveau code) dans
+l'app. Un message le rappelle à l'écran.
 
 RÈGLES DE GESTION
 -----------------
